@@ -1,0 +1,49 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: ecommerce-app-frontend-service
+  labels:
+    app: ecommerce-app-frontend
+    namespace: ecommerce-app-ns
+spec:
+  selector:
+    app: ecommerce-app-frontend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
+  type: LoadBalancer
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: ecommerce-app-backend-service
+  labels:
+    app: ecommerce-app-backend    
+    namespace: ecommerce-app-ns
+spec:
+  selector:
+    app: ecommerce-app-backend
+  ports:
+    - protocol: TCP
+      port: 5000
+      targetPort: 5000
+  type: ClusterIP
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: ecommerce-app-database-service
+  labels:
+    app: ecommerce-app-database
+    namespace: ecommerce-app-ns
+spec:
+  selector:
+    app: ecommerce-app-database
+  ports:
+    - protocol: TCP
+      port: 27017
+      targetPort: 27017
+  type: ClusterIP

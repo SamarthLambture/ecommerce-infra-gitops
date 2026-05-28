@@ -1,0 +1,73 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: ecommerce-app-frontend-deployment
+  labels:
+    app: ecommerce-app-frontend
+  namespace: ecommerce-app-ns
+spec:
+  replicas: 3
+  selector:
+    matchLabels: 
+      app: ecommerce-app-frontend
+  template:
+    metadata:
+      labels: 
+        app: ecommerce-app-frontend
+    spec:
+      containers:
+        - name: ecommerce-app-frontend
+          image: samarthlambture/ecommerce-store_frontend:latest
+          ports:
+            - containerPort: 3000
+
+---
+kind: Deployment
+apiVersion: apps/v1 
+metadata:
+  name: ecommerce-app-backend-deployment
+  labels:
+    app: ecommerce-app-backend
+  namespace: ecommerce-app-ns
+spec:
+  replicas: 3
+  selector:
+    matchLabels: 
+      app: ecommerce-app-backend
+  template:
+    metadata:
+      labels: 
+        app: ecommerce-app-backend
+    spec:
+      containers:
+        - name: ecommerce-app-backend
+          image: samarthlambture/ecommerce-store_backend:latest
+          ports:
+            - containerPort: 5000
+          env:
+            - name: MONGO_URI
+              value: "mongodb://ecommerce-app-database-service:27017/ecommerce"
+
+---
+kind: Deployment
+apiVersion: apps/v1 
+metadata:
+  name: ecommerce-app-database-deployment
+  labels:
+    app: ecommerce-app-database
+  namespace: ecommerce-app-ns
+spec:
+  replicas: 1 
+  selector:
+    matchLabels:
+      app: ecommerce-app-database
+  template:
+    metadata:
+      labels: # FIXED: changed from label
+        app: ecommerce-app-database
+    spec:
+      containers:
+        - name: ecommerce-app-database
+          image: mongo:6.0
+          ports:
+            - containerPort: 27017

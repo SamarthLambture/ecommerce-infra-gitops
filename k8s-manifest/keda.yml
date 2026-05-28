@@ -1,0 +1,17 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: backend-scaler
+  namespace: ecommerce-app-ns
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: ecommerce-app-backend-deployment
+  minReplicaCount: 1        
+  maxReplicaCount: 10        
+  triggers:
+    - type: cpu
+      metadata:
+        type: Utilization
+        value: "70"         
