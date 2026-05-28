@@ -1,1 +1,2 @@
-.terraform/
+terraform/infra/.terraform/
+terraform/remote-infra/.terraform/
