@@ -1,2 +1,3 @@
 terraform/infra/.terraform/
 terraform/remote-infra/.terraform/
+**/.terraform/

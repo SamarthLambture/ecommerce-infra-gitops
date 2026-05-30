@@ -2,9 +2,13 @@ kind: Service
 apiVersion: v1
 metadata:
   name: ecommerce-app-frontend-service
+  namespace: ecommerce-app-ns
   labels:
     app: ecommerce-app-frontend
-    namespace: ecommerce-app-ns
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: "external"
+    service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: "instance"
+    service.beta.kubernetes.io/aws-load-balancer-scheme: "internet-facing"
 spec:
   selector:
     app: ecommerce-app-frontend
@@ -19,9 +23,9 @@ kind: Service
 apiVersion: v1
 metadata:
   name: ecommerce-app-backend-service
+  namespace: ecommerce-app-ns
   labels:
     app: ecommerce-app-backend    
-    namespace: ecommerce-app-ns
 spec:
   selector:
     app: ecommerce-app-backend
@@ -36,9 +40,9 @@ kind: Service
 apiVersion: v1
 metadata:
   name: ecommerce-app-database-service
+  namespace: ecommerce-app-ns
   labels:
     app: ecommerce-app-database
-    namespace: ecommerce-app-ns
 spec:
   selector:
     app: ecommerce-app-database

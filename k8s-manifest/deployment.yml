@@ -6,7 +6,7 @@ metadata:
     app: ecommerce-app-frontend
   namespace: ecommerce-app-ns
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels: 
       app: ecommerce-app-frontend
@@ -20,6 +20,11 @@ spec:
           image: samarthlambture/ecommerce-store_frontend:latest
           ports:
             - containerPort: 3000
+          env:
+            - name: DANGEROUSLY_DISABLE_HOST_CHECK
+              value: "true"
+          stdin: true
+          tty: true
 
 ---
 kind: Deployment
@@ -30,7 +35,7 @@ metadata:
     app: ecommerce-app-backend
   namespace: ecommerce-app-ns
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels: 
       app: ecommerce-app-backend
@@ -45,7 +50,7 @@ spec:
           ports:
             - containerPort: 5000
           env:
-            - name: MONGO_URI
+            - name: DB_CONNECTION
               value: "mongodb://ecommerce-app-database-service:27017/ecommerce"
 
 ---
