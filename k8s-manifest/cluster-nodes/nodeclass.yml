@@ -3,6 +3,8 @@ kind: NodeClass
 metadata:
   name: node-class
 spec:
+
+  role: "AmazonEKSAutoNodeRole"
   # Automatically tells EKS Auto Mode to locate your VPC subnets
   subnetSelectorTerms:
     - tags:
