@@ -13,11 +13,12 @@ module "eks" {
 
   compute_config = {
     enabled    = true
-    node_pools = ["general-purpose"]
+    # node_pools = ["general-purpose"]
+    node_pools = []
   }
 
-  vpc_id     = "vpc-0c87f4bc406de9d2f"
-  subnet_ids = ["subnet-0068375b958e9b782", "subnet-03837b3fff98c32f8"]
+  vpc_id     = module.vpc.vpc_id
+  subnet_ids = module.vpc.private_subnets
     
   tags = {
     Environment = var.env

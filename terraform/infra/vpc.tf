@@ -11,6 +11,16 @@ module "vpc" {
   enable_nat_gateway = true
   enable_vpn_gateway = true
 
+  # CRITICAL: Add these tags so EKS Auto Mode / Karpenter knows where to put your instances
+  private_subnet_tags = {
+    "kubernetes.io/role/internal-elb" = "1"
+    "kubernetes.io/cluster/ecommerce-app-eks" = "owned"
+  }
+
+  public_subnet_tags = {
+    "kubernetes.io/role/elb" = "1"
+  }
+
   tags = {
     Terraform = "true"
     Environment = var.env
