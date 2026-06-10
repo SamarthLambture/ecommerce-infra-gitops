@@ -7,14 +7,17 @@ module "vpc" {
   azs             = ["ap-south-2a", "ap-south-2b"]
   private_subnets = ["10.0.1.0/24", "10.0.2.0/24"]
   public_subnets  = ["10.0.101.0/24", "10.0.102.0/24"]
+  enable_dns_hostnames = true
+  enable_dns_support   = true
 
   enable_nat_gateway = true
-  enable_vpn_gateway = true
+  
+  single_nat_gateway = true 
+  enable_vpn_gateway = false
 
-  # CRITICAL: Add these tags so EKS Auto Mode / Karpenter knows where to put your instances
   private_subnet_tags = {
     "kubernetes.io/role/internal-elb" = "1"
-    "kubernetes.io/cluster/ecommerce-app-eks" = "owned"
+    "kubernetes.io/cluster/ecommerce-app-eks" = "shared"
   }
 
   public_subnet_tags = {
@@ -22,7 +25,7 @@ module "vpc" {
   }
 
   tags = {
-    Terraform = "true"
+    Terraform   = "true"
     Environment = var.env
   }
 }
