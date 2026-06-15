@@ -1,0 +1,29 @@
+# argo-app.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ecommerce-store-gitops
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io # Deletes resources from K8s if you delete the Argo app
+spec:
+  project: default
+
+  # Source: Where the Kubernetes manifests are stored
+  source:
+    repoURL: 'https://github.com/SamarthLambture/ecommerce-infra-gitops.git'
+    targetRevision: HEAD
+    path: k8s-manifest # Path inside your repo where deployment.yml and services.yml sit
+
+  # Destination: Where to deploy them
+  destination:
+    server: 'https://kubernetes.default.svc' # Deploys to the local EKS cluster Argo is on
+    namespace: ecommerce-app-ns              # Your e-commerce namespace
+
+  # Sync Policy: How ArgoCD handles drift
+  syncPolicy:
+    automated:
+      prune: true    # Automatically remove resources deleted from Git
+      selfHeal: true # Automatically fix drift if someone manually edits via kubectl
+    syncOptions:
+      - CreateNamespace=true # Creates ecommerce-app-ns if it doesn't exist
