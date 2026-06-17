@@ -1,0 +1,26 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: order-service-scaler
+  namespace: default # Same namespace as your application deployment
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: ecommerce-order-service # 1. The exact name of your application's deployment
+  
+  minReplicaCount: 0  # 2. Scale down to absolute ZERO when the queue is completely empty to save AWS money
+  maxReplicaCount: 10 # 3. Safe ceiling so a traffic spike doesn't accidentally crash your database
+  pollingInterval: 15 # 4. How often KEDA checks the SQS queue (every 15 seconds)
+  cooldownPeriod:  300 # 5. Wait 5 minutes after traffic drops before scaling down (prevents thrashing)
+
+  triggers:
+    - type: aws-sqs-queue
+      authenticationRef:
+        name: keda-aws-credentials # Links to the authentication file from Step 1
+      metadata:
+        # 6. Replace with your actual AWS SQS Queue URL
+        queueURL: https://sqs.ap-south-2.amazonaws.com/123456789012/ecommerce-orders-queue
+        # 7. Target queue length: Spawns 1 pod for every 10 unread messages in the backlog
+        queueLength: "10" 
+        awsRegion: ap-south-2
