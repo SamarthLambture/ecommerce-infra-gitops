@@ -5,7 +5,7 @@ resource "kubernetes_namespace" "argocd" {
   }
 }
 
-# 2. Deploy ArgoCD using the official Helm Chart
+# # 2. Deploy ArgoCD using the official Helm Chart
 resource "helm_release" "argocd" {
   name       = "argocd"
   repository = "https://argoproj.github.io/argo-helm"

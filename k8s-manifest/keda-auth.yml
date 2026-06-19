@@ -2,7 +2,7 @@ apiVersion: keda.sh/v1alpha1
 kind: TriggerAuthentication
 metadata:
   name: keda-aws-credentials
-  namespace: default # Must be the same namespace as your application deployment
+  namespace: ecommerce-app-ns # Must be the same namespace as your application deployment
 spec:
   podIdentity:
     provider: aws-eks # Tells KEDA to inherit the IAM role from EKS Pod Identity / IRSA
