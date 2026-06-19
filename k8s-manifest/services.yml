@@ -11,6 +11,8 @@ metadata:
     service.beta.kubernetes.io/aws-load-balancer-scheme: "internet-facing"
     # service.beta.kubernetes.io/aws-load-balancer-security-groups: "sg-05ca1129b348defb3"
     service.beta.kubernetes.io/aws-load-balancer-inbound-cidrs: 0.0.0.0/0
+    service.beta.kubernetes.io/aws-load-balancer-healthcheck-protocol: "TCP"  # ADD THIS
+    service.beta.kubernetes.io/aws-load-balancer-healthcheck-port: "traffic-port"  # ADD THIS
 spec:
   selector:
     app: ecommerce-app-frontend
