@@ -14,8 +14,8 @@ resource "helm_release" "prometheus_stack" {
   # For a development/learning setup, we can disable persistent storage 
   # so it doesn't try to provision expensive AWS EBS volumes right away.
   set {
-    name  = "prometheus.prometheusSpec.storageSpec.emptyDir.medium"
-    value = "Memory"
+    name  = "prometheus.prometheusSpec.storageSpec"
+    value = ""
   }
 
   # Ensure Grafana is enabled and ready

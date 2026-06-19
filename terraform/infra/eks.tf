@@ -10,10 +10,6 @@ module "eks" {
 
   enable_cluster_creator_admin_permissions = true
 
-  compute_config = {
-    enabled = false
-  }
-
   vpc_id     = module.vpc.vpc_id
   subnet_ids = module.vpc.private_subnets
 
@@ -66,4 +62,9 @@ resource "aws_eks_addon" "kube_proxy" {
 
   resolve_conflicts_on_create = "OVERWRITE"
   resolve_conflicts_on_update = "OVERWRITE"
+}
+
+resource "aws_eks_addon" "pod_identity" {
+  cluster_name = module.eks.cluster_name
+  addon_name   = "eks-pod-identity-agent"
 }

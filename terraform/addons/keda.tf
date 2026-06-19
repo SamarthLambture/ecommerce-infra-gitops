@@ -12,5 +12,6 @@ resource "helm_release" "keda" {
   namespace  = kubernetes_namespace.keda.metadata[0].name
 
   # KEDA can run perfectly fine on your existing node groups
-  depends_on = [data.aws_eks_cluster.this]
+  # depends_on = [data.aws_eks_cluster.this]
+  depends_on = [helm_release.aws_load_balancer_controller]
 }
