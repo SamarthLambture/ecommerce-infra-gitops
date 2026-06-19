@@ -8,7 +8,11 @@ module "load_balancer_controller_irsa_role" {
 
   oidc_providers = {
     main = {
-      provider_arn               = module.eks.oidc_provider_arn
+      provider_arn = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:oidc-provider/${replace(data.aws_eks_cluster.this.identity[0].oidc[0].issuer, "https://", "")}"
+      # data.aws_eks_cluster.this.identity[0].oidc[0].issuer
+
+      # "arn:aws:iam::622915751178:oidc-provider/oidc.eks.ap-south-2.amazonaws.com/id/D4665B897692BE71F18DC73915EE6F4D"
+                      # data.terraform_remote_state.infra.outputs.cluster_oidc_provider_arn
       namespace_service_accounts = ["kube-system:aws-load-balancer-controller"]
     }
   }
@@ -24,12 +28,12 @@ resource "helm_release" "aws_load_balancer_controller" {
 
   set {
     name  = "clusterName"
-    value = module.eks.cluster_name
+    value = data.aws_eks_cluster.this.name
   }
 
   set {
     name  = "vpcId"
-    value = module.vpc.vpc_id
+    value = data.aws_vpc.this.id
   }
 
   set {

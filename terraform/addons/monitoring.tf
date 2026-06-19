@@ -24,5 +24,5 @@ resource "helm_release" "prometheus_stack" {
     value = "true"
   }
 
-  depends_on = [module.eks]
+  depends_on = [data.aws_eks_cluster.this]
 }
