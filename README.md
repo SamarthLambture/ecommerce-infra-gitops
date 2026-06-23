@@ -226,7 +226,7 @@ The application will be live shortly. Access it via the NLB URL.
 3rd Year B.Tech Student | DevOps & Cloud-Native Enthusiast  
 
 - GitHub: [@SamarthLambture](https://github.com/SamarthLambture)
-- LinkedIn: [Connect with me](https://linkedin.com/in/yourprofile)
+- LinkedIn: [Connect with me](https://www.linkedin.com/in/samarth-lambture-1b5418338/)
 
 ---
 
