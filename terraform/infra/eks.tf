@@ -38,6 +38,19 @@ module "eks" {
     Environment = var.env
     Terraform   = "true"
   }
+
+  node_security_group_additional_rules = {
+
+    frontend_3000 = {
+      description = "Allow traffic to frontend pods"
+      protocol    = "tcp"
+      from_port   = 3000
+      to_port     = 3000
+      type        = "ingress"
+
+      cidr_blocks = ["10.0.0.0/16"]
+    }
+  }
 }
 
 resource "aws_eks_addon" "vpc_cni" {

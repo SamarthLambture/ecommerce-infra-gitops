@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloudflare-quick-tunnel
+  namespace: ecommerce-app-ns # Deployed into your existing ecommerce namespace
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cloudflare-quick-tunnel
+  template:
+    metadata:
+      labels:
+        app: cloudflare-quick-tunnel
+    spec:
+      containers:
+      - name: cloudflared
+        image: cloudflare/cloudflared:latest
+        args:
+        - tunnel
+        - --url
+        # Constructed internal DNS path pointing directly to your frontend service
+        - http://ecommerce-app-frontend-service.ecommerce-app-ns.svc.cluster.local:80
