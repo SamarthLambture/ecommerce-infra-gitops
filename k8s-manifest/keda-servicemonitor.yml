@@ -1,23 +1,23 @@
-# keda-servicemonitor.yml
-# Add this to k8s-manifest/ in your Git repo
-# This tells Prometheus to scrape KEDA's metrics server
-# so SQS queue depth becomes visible in Grafana
+# # keda-servicemonitor.yml
+# # Add this to k8s-manifest/ in your Git repo
+# # This tells Prometheus to scrape KEDA's metrics server
+# # so SQS queue depth becomes visible in Grafana
 
-apiVersion: monitoring.coreos.com/v1
-kind: ServiceMonitor
-metadata:
-  name: keda-metrics-monitor
-  namespace: monitoring          # Must be in monitoring namespace
-  labels:
-    release: prometheus          # Matches your Helm release name
-spec:
-  namespaceSelector:
-    matchNames:
-      - keda                     # KEDA lives in the keda namespace
-  selector:
-    matchLabels:
-      app: keda-operator         # Label on KEDA's metrics service
-  endpoints:
-    - port: metrics
-      path: /metrics
-      interval: 15s
+# apiVersion: monitoring.coreos.com/v1
+# kind: ServiceMonitor
+# metadata:
+#   name: keda-metrics-monitor
+#   namespace: monitoring          # Must be in monitoring namespace
+#   labels:
+#     release: prometheus          # Matches your Helm release name
+# spec:
+#   namespaceSelector:
+#     matchNames:
+#       - keda                     # KEDA lives in the keda namespace
+#   selector:
+#     matchLabels:
+#       app: keda-operator         # Label on KEDA's metrics service
+#   endpoints:
+#     - port: metrics
+#       path: /metrics
+#       interval: 15s
