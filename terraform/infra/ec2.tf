@@ -1,4 +1,3 @@
-# key pair
 resource "aws_key_pair" "my_key" {
     key_name = "${var.env}-${var.key_name}"
     public_key = file("${var.public_key_path}")
@@ -7,7 +6,6 @@ resource "aws_key_pair" "my_key" {
     }
 }
 
-# vpc and security key
 resource "aws_default_vpc" "default_vpc" {
     # cidr_block = 
 }
@@ -16,7 +14,6 @@ resource "aws_security_group" "my_sg" {
     name = "${var.env}-security-group"
     description = "Traffic allowance for my EC2 instance" 
     vpc_id = aws_default_vpc.default_vpc.id
-    # inbound rules
     ingress {
         from_port = 22
         to_port = 22
@@ -31,7 +28,6 @@ resource "aws_security_group" "my_sg" {
         cidr_blocks = ["0.0.0.0/0"]
         description = "http access"
     }
-    # outbound rules
     egress {
         from_port = 0
         to_port = 0
@@ -40,7 +36,6 @@ resource "aws_security_group" "my_sg" {
     }
 }
 
-# ec2 instance
 resource "aws_instance" "my_instance" {
     for_each = tomap({
         "${var.env}-ecommerce-instance-1" = var.instance_type

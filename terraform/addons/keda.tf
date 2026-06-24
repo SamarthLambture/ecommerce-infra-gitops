@@ -8,10 +8,10 @@ resource "helm_release" "keda" {
   name       = "keda"
   repository = "https://kedacore.github.io/charts"
   chart      = "keda"
-  version    = "2.14.0" # Use the latest stable version suited for your setup
+  version    = "2.14.0" 
   namespace  = kubernetes_namespace.keda.metadata[0].name
 
-  # --- Senior DevOps Tweak: Enable Prometheus Scraping ---
+
   set {
     name  = "prometheus.metricServer.enabled"
     value = "true"
@@ -26,7 +26,6 @@ resource "helm_release" "keda" {
     name  = "prometheus.operator.enabled"
     value = "true"
   }
-  # KEDA can run perfectly fine on your existing node groups
-  # depends_on = [data.aws_eks_cluster.this]
+
   depends_on = [helm_release.aws_load_balancer_controller]
 }

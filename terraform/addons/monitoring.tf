@@ -41,7 +41,6 @@ resource "helm_release" "prometheus_stack" {
   version    = "61.3.0"
   namespace  = kubernetes_namespace.monitoring.metadata[0].name
 
-  # Allow Prometheus to discover ServiceMonitors in ALL namespaces (including ecommerce-app-ns)
   set {
     name  = "prometheus.prometheusSpec.podMonitorSelectorNilUsesHelmValues"
     value = "false"
@@ -55,7 +54,6 @@ resource "helm_release" "prometheus_stack" {
     value = "false"
   }
 
-  # Expose Grafana via AWS NLB so you can open it in a browser
   set {
     name  = "grafana.service.type"
     value = "LoadBalancer"
@@ -73,17 +71,6 @@ resource "helm_release" "prometheus_stack" {
     value = "internet-facing"
   }
 
-  # Grafana admin credentials
-  set {
-    name  = "grafana.adminUser"
-    value = "admin"
-  }
-  set_sensitive {
-    name  = "grafana.adminPassword"
-    value = "EcommerceGrafana2024!"   # Change this to something strong
-  }
-
-  # Tell Grafana to auto-load dashboards from ConfigMaps that have the label grafana_dashboard=1
   set {
     name  = "grafana.sidecar.dashboards.enabled"
     value = "true"
@@ -98,10 +85,9 @@ resource "helm_release" "prometheus_stack" {
   }
   set {
     name  = "grafana.sidecar.dashboards.searchNamespace"
-    value = "ALL"   # Picks up ConfigMaps from any namespace
+    value = "ALL"  
   }
 
-  # Disable persistent storage for dev (avoids EBS cost)
   set {
     name  = "prometheus.prometheusSpec.storageSpec"
     value = ""
