@@ -1,6 +1,4 @@
 # grafana-dashboard.yml
-# Replace your existing grafana-dashboard.yml in k8s-manifest/
-
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -20,7 +18,6 @@ data:
       "timezone": "browser",
       "tags": ["ecommerce", "keda", "sqs", "argocd"],
       "panels": [
-
         {
           "id": 1,
           "title": "🟢 Running Pods",
@@ -38,7 +35,6 @@ data:
             "datasource": { "type": "prometheus", "uid": "prometheus" }
           }]
         },
-
         {
           "id": 2,
           "title": "📦 Backend Replicas (KEDA)",
@@ -56,82 +52,6 @@ data:
             "datasource": { "type": "prometheus", "uid": "prometheus" }
           }]
         },
-
-        {
-          "id": 3,
-          "title": "📬 SQS Messages (orders-queue)",
-          "type": "stat",
-          "gridPos": { "x": 8, "y": 0, "w": 4, "h": 4 },
-          "options": { "colorMode": "background", "graphMode": "area" },
-          "fieldConfig": {
-            "defaults": {
-              "unit": "short",
-              "thresholds": { "steps": [{"color":"green","value":0},{"color":"yellow","value":10},{"color":"red","value":50}] }
-            }
-          },
-          "targets": [{
-            "expr": "keda_scaler_metrics_value{scaledObject='order-service-scaler'}",
-            "legendFormat": "Queue Depth",
-            "datasource": { "type": "prometheus", "uid": "prometheus" }
-          }]
-        },
-
-        {
-          "id": 4,
-          "title": "✅ ArgoCD Sync Status",
-          "type": "stat",
-          "gridPos": { "x": 12, "y": 0, "w": 4, "h": 4 },
-          "options": { "colorMode": "background", "graphMode": "none", "textMode": "auto" },
-          "fieldConfig": {
-            "defaults": {
-              "thresholds": { "steps": [{"color":"red","value":0},{"color":"green","value":1}] },
-              "mappings": [{"type":"value","options":{"1":{"text":"Synced","color":"green"},"0":{"text":"OutOfSync","color":"red"}}}]
-            }
-          },
-          "targets": [{
-            "expr": "argocd_app_info{name='ecommerce-store-gitops', sync_status='Synced'}",
-            "legendFormat": "Sync",
-            "datasource": { "type": "prometheus", "uid": "prometheus" }
-          }]
-        },
-
-        {
-          "id": 5,
-          "title": "💚 ArgoCD App Health",
-          "type": "stat",
-          "gridPos": { "x": 16, "y": 0, "w": 4, "h": 4 },
-          "options": { "colorMode": "background", "graphMode": "none", "textMode": "auto" },
-          "fieldConfig": {
-            "defaults": {
-              "thresholds": { "steps": [{"color":"red","value":0},{"color":"green","value":1}] },
-              "mappings": [{"type":"value","options":{"1":{"text":"Healthy","color":"green"},"0":{"text":"Degraded","color":"red"}}}]
-            }
-          },
-          "targets": [{
-            "expr": "argocd_app_info{name='ecommerce-store-gitops', health_status='Healthy'}",
-            "legendFormat": "Health",
-            "datasource": { "type": "prometheus", "uid": "prometheus" }
-          }]
-        },
-
-        {
-          "id": 6,
-          "title": "🌐 EKS Ready Nodes",
-          "type": "stat",
-          "gridPos": { "x": 20, "y": 0, "w": 4, "h": 4 },
-          "options": { "colorMode": "background", "graphMode": "none" },
-          "fieldConfig": {
-            "defaults": {
-              "thresholds": { "steps": [{"color":"red","value":0},{"color":"green","value":1}] }
-            }
-          },
-          "targets": [{
-            "expr": "count(kube_node_status_condition{condition='Ready', status='true'})",
-            "legendFormat": "Ready Nodes",
-            "datasource": { "type": "prometheus", "uid": "prometheus" }
-          }]
-        },
-
         {
           "id": 7,
           "title": "📈 KEDA Scale Events — Replicas vs Queue Depth",
@@ -159,29 +79,6 @@ data:
             }
           ]
         },
-
-        {
-          "id": 8,
-          "title": "📊 SQS Queue Depth Over Time",
-          "type": "timeseries",
-          "gridPos": { "x": 12, "y": 4, "w": 12, "h": 8 },
-          "fieldConfig": {
-            "defaults": { "unit": "short", "color": { "mode": "palette-classic" }, "min": 0 }
-          },
-          "targets": [
-            {
-              "expr": "keda_scaler_metrics_value{scaledObject='order-service-scaler'}",
-              "legendFormat": "Messages in Queue",
-              "datasource": { "type": "prometheus", "uid": "prometheus" }
-            },
-            {
-              "expr": "keda_scaler_active{scaledObject='order-service-scaler'}",
-              "legendFormat": "Scaler Active (1=yes 0=no)",
-              "datasource": { "type": "prometheus", "uid": "prometheus" }
-            }
-          ]
-        },
-
         {
           "id": 9,
           "title": "💻 CPU Usage per Pod",
@@ -196,7 +93,6 @@ data:
             "datasource": { "type": "prometheus", "uid": "prometheus" }
           }]
         },
-
         {
           "id": 10,
           "title": "🧠 Memory Usage per Pod",
@@ -211,7 +107,6 @@ data:
             "datasource": { "type": "prometheus", "uid": "prometheus" }
           }]
         },
-
         {
           "id": 11,
           "title": "🚀 Pod Restarts (Crash Detection)",
@@ -226,7 +121,6 @@ data:
             "datasource": { "type": "prometheus", "uid": "prometheus" }
           }]
         },
-
         {
           "id": 12,
           "title": "⚖️ Node CPU vs Memory Pressure",
@@ -248,7 +142,6 @@ data:
             }
           ]
         },
-
         {
           "id": 13,
           "title": "🗄️ MongoDB Status",
@@ -267,7 +160,6 @@ data:
             "datasource": { "type": "prometheus", "uid": "prometheus" }
           }]
         },
-
         {
           "id": 14,
           "title": "🖥️ Frontend Status",
@@ -286,7 +178,6 @@ data:
             "datasource": { "type": "prometheus", "uid": "prometheus" }
           }]
         },
-
         {
           "id": 15,
           "title": "⚙️ Backend Status",
@@ -305,7 +196,6 @@ data:
             "datasource": { "type": "prometheus", "uid": "prometheus" }
           }]
         },
-
         {
           "id": 16,
           "title": "🌩️ ArgoCD Last Sync",
@@ -319,7 +209,6 @@ data:
             "datasource": { "type": "prometheus", "uid": "prometheus" }
           }]
         },
-
         {
           "id": 17,
           "title": "📋 All Pods — Live Status Table",

@@ -21,4 +21,17 @@ resource "helm_release" "argocd" {
     name  = "configs.secret.argocdServerAdminPasswordMuted"
     value = "false"
   }
+
+  set {
+    name  = "controller.metrics.enabled"
+    value = "true"
+  }
+  set {
+    name  = "server.metrics.enabled"
+    value = "true"
+  }
+  set {
+    name  = "repoServer.metrics.enabled"
+    value = "true"
+  }
 }
