@@ -35,7 +35,7 @@ metadata:
     app: ecommerce-app-backend
   namespace: ecommerce-app-ns
 spec:
-  serviceAccountName: backend-sa  # new SA with IRSA annotation
+  # serviceAccountName: backend-sa  # new SA with IRSA annotation
   replicas: 1
   selector:
     matchLabels: 
